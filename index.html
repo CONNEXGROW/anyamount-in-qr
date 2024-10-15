@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        img {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Enter Amount for Payment</h1>
+    <input type="number" id="amountInput" placeholder="Enter amount">
+    <button id="generateQR">Generate QR Code</button>
+    
+    <div id="qrCodeArea">
+        <img id="qrCode" src="" alt="QR Code" style="display:none;" />
+    </div>
+</div>
+
+<script>
+    document.getElementById('generateQR').addEventListener('click', function() {
+        var amount = document.getElementById('amountInput').value;
+        if (amount) {
+            // UPI QR code generation URL
+            var upiLink = `upi://pay?pa=9471314033@ybl&am=${amount}&pn=ConnexGrow&tn=Payment`;
+            var qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
+            
+            // Show the QR code
+            var qrCodeImage = document.getElementById('qrCode');
+            qrCodeImage.src = qrCodeUrl;
+            qrCodeImage.style.display = 'block';
+        } else {
+            alert("Please enter an amount.");
+        }
+    });
+</script>
+
+</body>
+</html>
